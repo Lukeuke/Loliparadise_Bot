@@ -6,6 +6,7 @@
 #### Starting an application;
 
 - Git clone the project,
+- Install the dependencies by `npm i`,
 - Start by `npm start`
 
 #### What is `config.json`?
