@@ -5,7 +5,7 @@ const fs = require('fs');
 const URL = "https://www.loliparadise.com";
 
 const MULTIPLIER = 60000
-const INTERVAL = 0.06
+const INTERVAL = 1
 
 const minutesToMs = (value) => {
     return value * MULTIPLIER;
@@ -13,7 +13,7 @@ const minutesToMs = (value) => {
 
 let links = [];
 
-function WEZ_SE_KUP_KOSZULKE() {
+const WEZ_SE_KUP_KOSZULKE = () => {
     axios.get(URL).then(response => {
         const html = response.data;
         const $ = cheerio.load(html);
@@ -26,6 +26,7 @@ function WEZ_SE_KUP_KOSZULKE() {
         if (!text.includes("SOLD OUT")) {
             $('.product__image-wrapper', html).each( function(i) {
                 links[i] = URL + $(this).attr('href');
+                console.log(links[i]);
                 return links;
             })
         }
@@ -41,8 +42,10 @@ function WEZ_SE_KUP_KOSZULKE() {
     return links;
 }
 
-var v = WEZ_SE_KUP_KOSZULKE;
-
-setInterval(v, minutesToMs(INTERVAL));
+setInterval(WEZ_SE_KUP_KOSZULKE, minutesToMs(INTERVAL));
 
 console.log(`Application started with interval of ${minutesToMs(INTERVAL) / MULTIPLIER} minutes`)
+
+module.exports = {
+    WEZ_SE_KUP_KOSZULKE: WEZ_SE_KUP_KOSZULKE
+};
