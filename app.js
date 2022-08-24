@@ -35,7 +35,8 @@ const WEZ_SE_KUP_KOSZULKE = () => {
         }
         else {
             console.log('Nothing has changed')
-            return { message : "Nothing has changed", date: Date.now() }
+            links[0] = `The stock is sold out. Date: ${time()}` 
+            return links;
         }
     
         console.log('invoked')
@@ -52,3 +53,18 @@ console.log(`Application started with interval of ${minutesToMs(INTERVAL) / MULT
 module.exports = {
     WEZ_SE_KUP_KOSZULKE: WEZ_SE_KUP_KOSZULKE
 };
+
+const time = () => {
+    const today = new Date();
+    let h = today.getHours();
+    let m = today.getMinutes();
+    let s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    return h + ":" + m + ":" + s;
+  }
+  
+const checkTime = (i) => {
+    if (i < 10) {i = "0" + i};
+    return i;
+}
