@@ -4,8 +4,11 @@ const fs = require('fs');
 
 const URL = "https://www.loliparadise.com";
 
-const MULTIPLIER = 60000
-const INTERVAL = 1
+let json = fs.readFileSync('config.json')
+let data = JSON.parse(json)
+
+const MULTIPLIER = data.Multiplier;
+const INTERVAL = data.Interval;
 
 const minutesToMs = (value) => {
     return value * MULTIPLIER;
