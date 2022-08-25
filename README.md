@@ -9,6 +9,8 @@
 - Install the dependencies by `npm i`,
 - Start by `npm start`
 
+#### Discord bot
+- On <a href="https://github.com/Lukeuke/Loliparadise_Bot/tree/discord_bot"> discord_bot branch </a>
 #### What is `config.json`?
 
 - Interval is value (in minutes) between the function calls. 
