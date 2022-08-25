@@ -7,14 +7,11 @@
 
 - Git clone the project,
 - Install the dependencies by `npm i`,
+- Change token in `config.json` to your own token,
 - Start by `npm start`
 
 #### What is `config.json`?
 
+- Token is your discord bot token
 - Interval is value (in minutes) between the function calls. 
 - Multiplier is just to convert minutes from interval to milliseconds.
-
-<br>
-<br>
-
-<em> Don't ask me why I did't use React. </em>
