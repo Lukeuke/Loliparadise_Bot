@@ -15,7 +15,8 @@ let prefix = [
 let codes = [
     "senpai" // calls the "WEZ_SE_KUP_KOSZULKE" function
 ]
-const token =  require('./config.json')
+const config =  require('./config.json')
+const token = require('./token.json')
 
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
@@ -41,7 +42,8 @@ client.on('messageCreate', (message) => {
             message.channel.send({content: 'OwO'})
     }
     
-    if(message.content == `${prefix[0]} ${codes[0]} $loop`) {
+    if(message.content == `$loop`) {
+        isOnLoop = true;
         interval = setInterval (function () {
             isOnLoop = true;
             if(status != []) {
@@ -53,17 +55,20 @@ client.on('messageCreate', (message) => {
             else {
                 message.channel.send({content: 'OwO'})
             }
-        }, app.minutesToMs(15))
+
+            status = app.WEZ_SE_KUP_KOSZULKE();
+
+        }, config.Interval * config.Multiplier)
     }
     
     if(message.content == "$stop") {
         clearInterval(interval);
         isOnLoop = false;
-        message.channel.send({content: "Stopped the interval"})
+        message.channel.send({content: "Stopped the loop"})
     }
 
     if(message.content == "$status") {
-        isOnLoop ? message.channel.send({content: "Bot is on Loop"}) : message.channel.send({content: "Bot is not on Loop"})
+        isOnLoop ? message.channel.send({content: `Bot is on Loop with interval of ${config.Interval} minutes`}) : message.channel.send({content: "Bot is not on Loop"})
     }
 })
 
@@ -84,4 +89,4 @@ client.on('messageCreate', (message) => {
     }
 })
 
-client.login(token.token);
+client.login(token.value);

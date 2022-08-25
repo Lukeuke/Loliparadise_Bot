@@ -17,6 +17,9 @@ const minutesToMs = (value) => {
 let links = [];
 
 const WEZ_SE_KUP_KOSZULKE = () => {
+
+    console.log('function invoked')
+
     axios.get(URL).then(response => {
         const html = response.data;
         const $ = cheerio.load(html);
@@ -56,7 +59,7 @@ const WEZ_SE_KUP_KOSZULKE = () => {
     return links;
 }
 
-setInterval(WEZ_SE_KUP_KOSZULKE, minutesToMs(INTERVAL));
+// setInterval(WEZ_SE_KUP_KOSZULKE, minutesToMs(INTERVAL));
 
 console.log(`Application started with interval of ${minutesToMs(INTERVAL) / MULTIPLIER} minutes`)
 
