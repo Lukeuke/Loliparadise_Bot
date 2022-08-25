@@ -1,4 +1,5 @@
 {
+    "token": "your_token",
     "Multiplier" : 60000,
     "Interval": 60
 }
