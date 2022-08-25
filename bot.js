@@ -17,6 +17,7 @@ let codes = [
 ]
 const config =  require('./config.json')
 const token = require('./token.json')
+const prod = require('./prod')
 
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
@@ -89,4 +90,4 @@ client.on('messageCreate', (message) => {
     }
 })
 
-client.login(token.value);
+client.login(prod.token);
