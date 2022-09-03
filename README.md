@@ -29,11 +29,10 @@ $status
 
 - Git clone the project,
 - Install the dependencies by `npm i`,
-- Change token in `token.json` to your own token or make .env file and paste `TOKEN=<your_token_value>`,
+- Make .env file and paste `TOKEN=<here_your_token_value>`,
 - Start by `npm start`
 
-#### What is `config.json` and `token.json`?
+#### What is `config.json`?
 
-- In `token.json` value is your discord bot token
-- In `config.json` Interval is value (in minutes) between the function calls. 
-- In `config.json` Multiplier is just to convert minutes from interval to milliseconds.
+- Interval is value (in minutes) between the function calls. 
+- Multiplier is just to convert minutes from interval to milliseconds.

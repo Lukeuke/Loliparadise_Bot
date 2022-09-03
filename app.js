@@ -14,7 +14,7 @@ const minutesToMs = (value) => {
     return value * MULTIPLIER;
 }
 
-let links = [];
+var obj = {links: [""], type: ""};
 
 const WEZ_SE_KUP_KOSZULKE = () => {
 
@@ -42,29 +42,62 @@ const WEZ_SE_KUP_KOSZULKE = () => {
 
         for (let i = 0; i < price_text.length; i++) {
             if (!price_text[i].includes("SOLD OUT")) {
-                $('.product__image-wrapper', html).each( function(i) {
-                    links[i] = URL + $(this).attr('href');
-                    console.log(links[i]);
-                    return links;
-                })
+                if(price_text[i].includes("WKRÓTCE DOSTĘPNE")) {
+                    $('.product__image-wrapper', html).each( function(i) {
+
+                        obj.links[i] = URL + $(this).attr('href');
+                        obj.type = "WKRÓTCE DOSTĘPNE";
+
+                        return obj;
+                    })
+                }
+                else {
+                    $('.product__image-wrapper', html).each( function(i) {
+                        obj.links = URL + $(this).attr('href');
+                        obj.type = "DOSTĘPNE DO KUPIENIA";
+
+                        console.log(obj);
+                        return obj;
+                    })
+                }
             }
             else {
-                links[0] = `The stock is sold out. Date: ${time()} UTC` 
-                return links;
+                obj.links[0] = `The stock is sold out. Date: ${time()} UTC` 
+                return obj;
             }
         }
-
+        //console.log(obj);
     })
 
-    return links;
+    return obj;
+}
+
+let drop = "";
+
+const KIEDY_DROP = () => {
+
+    axios.get(URL).then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+
+        $('.announcement-bar__message', html).each(function () {
+            drop = $(this).text();
+            return drop;
+        })
+    })
+
+    return drop;
 }
 
 // setInterval(WEZ_SE_KUP_KOSZULKE, minutesToMs(INTERVAL));
 
+console.log(KIEDY_DROP())
+
 console.log(`Application started with interval of ${minutesToMs(INTERVAL) / MULTIPLIER} minutes`)
 
 module.exports = {
-    WEZ_SE_KUP_KOSZULKE
+    WEZ_SE_KUP_KOSZULKE,
+    KIEDY_DROP
 };
 
 const time = () => {

@@ -16,29 +16,34 @@ let codes = [
     "senpai" // calls the "WEZ_SE_KUP_KOSZULKE" function
 ]
 const config =  require('./config.json')
-const token = require('./token.json')
 const prod = require('./prod')
-
-client.on('ready', () => {
-	console.log(`Logged in as ${client.user.tag}!`);
-
-    client.user.setActivity("for some tees 👀", {type: "WATCHING"})
-});
 
 var status = app.WEZ_SE_KUP_KOSZULKE();
 var interval;
 let isOnLoop = false;
 
-console.log(status)
+client.on('ready', () => {
+	console.log(`Logged in as ${client.user.tag}!`);
+    client.user.setActivity("for some tees 👀", {type: "WATCHING"})
+});
 
 client.on('messageCreate', (message) => {
     if(message.content == `${prefix[0]} ${codes[0]}`) {
-        if(status != [])
-            for(var i = 0; i < status.length; i++)
-                if(status.length > 1)
-                    message.channel.send({content: `@everyone \nDostępna rzecz: ${status[i]}`})
-                else
-                    message.channel.send({content: status[i]})
+        if(status.links.length > 0) {
+
+            for (let i = 0; i < status.links.length; i++) {
+                if (status.links.length > 1 && status.type.includes("DOSTĘPNE DO KUPIENIA")) {
+                    message.channel.send({content: `@everyone ${status.type} \n ${status.links[i]}`})
+                }
+                else if (status.links.length > 1 && status.type.includes("WKRÓTCE DOSTĘPNE")) {
+                    message.channel.send({content: `@everyone ${status.type} \n ${status.links[i]}`})
+                }
+                else {
+                    message.channel.send({content: status.links[i]})
+                }
+            }
+
+        }
         else
             message.channel.send({content: 'OwO'})
     }
@@ -47,10 +52,10 @@ client.on('messageCreate', (message) => {
         isOnLoop = true;
         interval = setInterval (function () {
             isOnLoop = true;
-            if(status != []) {
-                for(var i = 0; i < status.length; i++) {
-                    if(status.length > 1)
-                        message.channel.send({content: `@everyone ${status[i]}`})
+            if(status.links.length > 0) {
+                for (var i = 0; i < status.links.length; i++) {
+                    if (status.links.length > 1)
+                        message.channel.send({content: `@everyone ${status.type} \n ${status.links[i]}`})
                 }
             }
             else {
@@ -71,11 +76,24 @@ client.on('messageCreate', (message) => {
     if(message.content == "$status") {
         isOnLoop ? message.channel.send({content: `Bot is on Loop with interval of ${config.Interval} minutes`}) : message.channel.send({content: "Bot is not on Loop"})
     }
+
+    if(message.content == "$drop") {
+        if(app.KIEDY_DROP() != "")
+            message.channel.send({content: "```" + app.KIEDY_DROP() + "```"});
+        else
+            message.channel.send({content: "```Data dropu nieznana```"});    
+    }
 })
 
 client.on('messageCreate', (message) => {
     if(message.content.toLowerCase() == `${prefix[1]}`) {
         message.reply("Ohayo gozaimasu")
+    }
+})
+
+client.on('messageCreate', (message) => {
+    if(message.content.toLowerCase() == "$help") {
+        message.reply("Dostepne komendy: `$loop, $stop, $status, $drop, uwu senpai, ohayo`")
     }
 })
 
