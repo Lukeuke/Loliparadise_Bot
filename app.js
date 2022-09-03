@@ -53,7 +53,7 @@ const WEZ_SE_KUP_KOSZULKE = () => {
                 }
                 else {
                     $('.product__image-wrapper', html).each( function(i) {
-                        obj.links = URL + $(this).attr('href');
+                        obj.links[i] = URL + $(this).attr('href');
                         obj.type = "DOSTĘPNE DO KUPIENIA";
 
                         console.log(obj);
