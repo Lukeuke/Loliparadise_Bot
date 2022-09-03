@@ -22,6 +22,9 @@ var status = app.WEZ_SE_KUP_KOSZULKE();
 var interval;
 let isOnLoop = false;
 
+let hasSendForBuy = false;
+let hasSendForAvailability = false;
+
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
     client.user.setActivity("for some tees 👀", {type: "WATCHING"})
@@ -32,14 +35,13 @@ client.on('messageCreate', (message) => {
         if(status.links.length > 0) {
 
             for (let i = 0; i < status.links.length; i++) {
-                if (status.links.length > 1 && status.type.includes("DOSTĘPNE DO KUPIENIA")) {
+                if (status.links.length > 1 && status.type.includes("DOSTĘPNE DO KUPIENIA") && !hasSendForBuy) {
                     message.channel.send({content: `@everyone ${status.type} \n ${status.links[i]}`})
+                    hasSendForBuy = true;
                 }
-                else if (status.links.length > 1 && status.type.includes("WKRÓTCE DOSTĘPNE")) {
+                else if (status.links.length > 1 && status.type.includes("WKRÓTCE DOSTĘPNE") && !hasSendForAvailability) {
                     message.channel.send({content: `@everyone ${status.type} \n ${status.links[i]}`})
-                }
-                else {
-                    message.channel.send({content: status.links[i]})
+                    hasSendForAvailability = true;
                 }
             }
 
